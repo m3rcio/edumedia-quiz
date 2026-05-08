@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>EduMedia</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>body{
+  font-family:'Nunito', sans-serif;
+  background:#189cfa;
+}
+
+/* NAVBAR */
+.navbar{
+  background:linear-gradient(90deg,#1e3c72,#2a5298);
+}
+
+/* QUIZ BOX */
+.quiz-box{
+  background:#ffffff;
+  padding:25px;
+  border-radius:25px;
+  max-width:700px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* TOP BAR */
+.top-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:800;
+}
+
+.progress{
+  height:12px;
+  background:#e5e7eb;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  background:linear-gradient(90deg, #06b6d4, #1d4ed8);
+  transition: width .4s cubic-bezier(.4,0,.2,1);
+}
+
+/* BOTÕES DUOLINGO */
+.duo-btn{
+  border:none;
+  border-radius:20px;
+  padding:14px;
+  font-weight:900;
+  color:#fff;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.duo-btn:active{
+  transform:translateY(4px);
+}
+
+/* CORES */
+.blue-1{
+  background:#4dd3f8;
+  border-bottom:6px solid #1e77af;
+}
+
+.blue-2{
+  background:#1b86e4;
+  border-bottom:6px solid #1e3a8a;
+}
+
+.blue-3{
+  background:#1d4ed8;
+  border-bottom:6px solid #172554;
+}
+
+.pink{
+    background-color: #f952ff;
+    border-bottom: #dc13e0;
+}
+
+.yellow{
+ background-color: #ff5ff2;
+  border:none;
+  border-bottom:6px solid #ca04ac;
+  color:white;
+  border-radius:16px;
+  padding:16px;
+  font-weight:800;
+  text-align:left;
+  cursor:pointer;
+}
+
+.yellow:active{
+  transform:translateY(4px);
+}
+.yellow:hover{
+     background-color: #e716d2;
+  border:none;
+  border-bottom:6px solid #930282;
+  color:white;
+  border-radius:16px;
+  padding:16px;
+  font-weight:800;
+  text-align:left;
+  cursor:pointer;
+}
+
+.orange{
+ background-color: #ef8f29;
+    border-bottom: #ca8a04;
+}
+
+
+/* COLUNA INICIAL */
+.quiz-start{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  max-width:300px;
+  margin:auto;
+}
+
+/* GRID RESPOSTAS */
+#options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:20px;
+}
+
+@media(max-width:600px){
+  #options{
+    grid-template-columns:1fr;
+  }
+}
+
+/* BOTÕES OPÇÃO */
+.btn-option{
+  background:#fff;
+  border:2px solid #e5e7eb;
+  border-bottom:6px solid #cbd5e1;
+  border-radius:16px;
+  padding:16px;
+  font-weight:800;
+  text-align:left;
+  cursor:pointer;
+}
+
+.btn-option:active{
+  transform:translateY(4px);
+}
+
+.edumedia{
+  cursor:pointer;
+}
+
+/* CORRETO / ERRADO */
+.correct{
+  background:#03da15 !important;
+  color:#fff !important;
+  border-bottom:6px solid #15803d !important;
+  animation:bounce .3s;
+  cursor: not-allowed;
+}
+
+.wrong{
+  background:#f31919 !important;
+  color: #fff !important;
+  border-bottom:6px solid #890101 !important;
+  animation:shake .3s;
+  cursor: not-allowed;
+}
+
+/* ANIMAÇÕES */
+@keyframes bounce{
+  50%{transform:translateY(-6px);}
+}
+
+@keyframes shake{
+  25%{transform:translateX(-5px);}
+  75%{transform:translateX(5px);}
+}
+
+.option-pop{
+  animation:pop .25s;
+}
+
+@keyframes pop{
+  50%{transform:scale(1.08);}
+}
+
+/* SWIPE */
+/* .swipe-in{
+  animation:in .25s;
+}
+
+.swipe-out{
+  animation:out .25s forwards;
+} */
+
+@keyframes in{
+  from{opacity:0; transform:translateX(40px);}
+}
+
+@keyframes out{
+  to{opacity:0; transform:translateX(-40px);}
+}
+
+/* Animação ao carregar as perguntas */
+.question-enter{
+  animation:slideFade .35s ease;
+}
+
+@keyframes slideFade{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* efeito pop ao clicar na resposta */
+.option-pop{
+  animation:pop .25s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+  100%{transform:scale(1);}
+}
+
+/* DICA */
+.hint-btn{
+  background:#facc15;
+  border:none;
+  border-bottom:5px solid #ca8a04;
+  border-radius:10px;
+  padding:5px 10px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* RESULTADO */
+#scoreDisplay{
+  font-weight:900;
+}
+
+/* =========================
+   SWIPE TRANSITIONS
+========================= */
+
+.swipe-out{
+  animation: swipeOut .3s forwards ease;
+}
+
+.swipe-in{
+  animation: swipeIn .3s forwards ease;
+}
+
+@keyframes swipeOut{
+  from{
+    opacity:1;
+    transform:translateX(0);
+  }
+  to{
+    opacity:0;
+    transform:translateX(-40px);
+  }
+}
+
+@keyframes swipeIn{
+  from{
+    opacity:0;
+    transform:translateX(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+.quiz-header{
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:10px;
+}
+
+.close-btn{
+  background:#f1f5f9;
+  border:none;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  font-size:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.2s;
+  border-bottom: 5px solid gray;
+}
+
+/* hover */
+.close-btn:hover{
+  background:#e2e8f0;
+  transform:scale(1.1);
+}
+
+/* clique */
+.close-btn:active{
+  transform:scale(.95);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand navbar-dark shadow-sm sticky-top" style="background: linear-gradient(90deg, #1e3c72, #2a5298);">
+    <div class="container">
+      <span class="navbar-brand fw-bold edumedia" onclick="goHome()"><i class="fas fa-layer-group me-2"></i>EduMedia</span>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" id="btn-quiz" href="#" onclick="switchTab('quiz-tab')">
+            <i class="fas fa-vial me-1"></i> Quiz
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="btn-learn" href="#" onclick="switchTab('learn-tab')">
+            <i class="fas fa-book-open me-1"></i> Aprendizado
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+<div class="container py-5">
+
+<!-- ================= QUIZ ================= -->
+<section id="quiz-tab">
+
+  <!-- INICIO -->
+  <div id="setupContainer" class="text-center">
+    <h1 class="mb-3 text-light">Simulador Multimédia</h1>
+    <p class=" mb-5 text-light">Teste os seus conhecimentos.</p>
+
+    <div class="quiz-start">
+      <button class="duo-btn blue-1" onclick="startQuiz(5)">⚡ Nível 1</button>
+      <button class="duo-btn blue-2" onclick="startQuiz(10)">🎯 Nível 2</button>
+      <button class="duo-btn blue-3" onclick="startQuiz(15)">🏆 Nível 3</button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizContainer" class="quiz-box d-none mx-auto">
+    <div class="quiz-header">
+  <button class="close-btn" onclick="goHome()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+    <div class="top-bar">
+      <span id="questionCounter"></span>
+      <div id="lives"></div>
+      <div id="streak"></div>
+      <div id="levelBox"></div>
+      <button class="hint-btn mb-3" onclick="showHint()">💡</button>
+    </div>
+
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <h3 id="questionText" class="text-center mt-4"></h3>
+
+    <div id="options"></div>
+
+    <div id="nextAction" class="d-none mt-4">
+      <button class="duo-btn blue-2 w-100" onclick="nextQuestion()">Próxima →</button>
+    </div>
+
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultContainer" class="d-none text-center mt-5">
+    <h2>Resultado</h2>
+    <div id="scoreDisplay" class="display-1"></div>
+    <p id="scoreText"></p>
+    <button class="duo-btn blue-1" onclick="location.reload()">Reiniciar</button>
+  </div>
+
+</section>
+
+ <section id="learn-tab" class="d-none animate-fade">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold display-6 text-light">Centro de Conhecimento</h2>
+        <p class="text-light">Explore os conceitos fundamentais antes de realizar o teste.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="card h-100 shadow-sm border-0 rounded-4 p-3">
+            <div class="card-body">
+              <h4 class="card-title text-primary fw-bold mb-4"><i class="fas fa-file-alt me-2"></i> Resumo Teórico</h4>
+              <div class="accordion" id="theoryAccordion">
+                <div class="accordion-item border-0 border-bottom">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">
+                      1. Natureza Temporal das Mídias
+                    </button>
+                  </h2>
+                  <div id="c1" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                      As mídias dividem-se em <strong>Estáticas</strong> (tempo não é crítico, ex: texto e imagem) e <strong>Dinâmicas</strong> (dependem do tempo para fazer sentido, ex: áudio e vídeo).
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item border-0 border-bottom">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">
+                      2. Origem dos Dados (Capturadas vs Sintetizadas)
+                    </button>
+                  </h2>
+                  <div id="c2" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <strong>Capturadas:</strong> Obtidas de sensores do mundo real (câmaras/microfones).<br>
+                      <strong>Sintetizadas:</strong> Geradas algoritmicamente por computador (gráficos 3D, síntese de voz).
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card h-100 shadow-sm border-0 rounded-4 bg-light text-white p-3">
+            <div class="card-body text-center">
+              <h4 class="card-title text-warning mb-4"><i class="fas fa-play-circle me-2"></i> Aula em Vídeo</h4>
+              <div class="ratio ratio-16x9 shadow rounded overflow-hidden">
+   <iframe width="866" height="487" src="https://www.youtube.com/embed/YhEzvF-zBwc" title="Apresentação - Sistemas Multimídia" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+              <p class="mt-3 small opacity-75">Tópico: Digitalização, Amostragem e Quantização de Sinais.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br><br>
+      <div class="card-body">
+  <h5 class="card-title text-light"><i class="fas fa-book me-2"></i> Manual: Tipos de Média</h5>
+  <p class="card-text text-light">Documento detalhado sobre a taxonomia das mídias e sinais.</p>
+  <a href="manuais/manual_multimedia.pdf" target="_blank" class="btn btn-primary w-100">
+    <i class="fas fa-file-pdf me-2"></i>Abrir Manual PDF
+  </a>
+</div>
+    </section>
+
+</div>
+
+<!-- SONS -->
+<!-- <audio id="correctSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio> -->
+<!-- <audio id="correctSound2" src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3"></audio> -->
+<!-- <audio id="wrongSound" src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3"></audio> -->
+<audio id="correctSound" src="duolingo-correct.mp3"></audio>
+<audio id="wrongSound" src="duolingo-wrong-sound-effect.mp3"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
